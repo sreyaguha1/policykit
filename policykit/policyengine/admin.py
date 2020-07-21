@@ -239,6 +239,7 @@ class PolicykitAddUserRoleAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.initiator = request.user
         obj.community = request.user.community
+        obj.role = request.user.role
         obj.save()
 
 admin_site.register(PolicykitAddUserRole, PolicykitAddUserRoleAdmin)
