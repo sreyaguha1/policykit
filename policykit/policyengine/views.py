@@ -18,6 +18,10 @@ def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
         logger.error(e)
         return
 
+    users = CommunityUser.objects.filter(community=policy.community)
+    boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
+    number_votes = NumberVote.objects.filter(proposal=action.proposal)
+    
     lines = ['  ' + item for item in code.splitlines()]
     code = wrapperStart + '\r\n'.join(lines) + wrapperEnd
 
@@ -50,9 +54,7 @@ def initialize_policy(policy, action):
 def check_policy(policy, action):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
 
-    users = CommunityUser.objects.filter(community=policy.community)
-    boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
-    number_votes = NumberVote.objects.filter(proposal=action.proposal)
+    
 
     _locals = locals()
 
