@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse
 from policyengine.filter import *
 from policyengine.exceptions import NonWhitelistedCodeError
-from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
+from policyengine.models import CommunityUser, BooleanVote, NumberVote
 import urllib.request
 import urllib.parse
 import logging
