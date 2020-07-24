@@ -23,6 +23,11 @@ def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
     logger.info('built code')
     logger.info(code)
 
+    users = CommunityUser.objects.filter(community=policy.community)
+    boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
+    number_votes = NumberVote.objects.filter(proposal=action.proposal)
+
+
     exec(code, globals, locals)
     logger.info('ran exec')
 
@@ -56,10 +61,7 @@ def initialize_policy(policy, action):
 def check_policy(policy, action):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
 
-    users = CommunityUser.objects.filter(community=policy.community)
-    boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
-    number_votes = NumberVote.objects.filter(proposal=action.proposal)
-
+    
     _locals = locals()
 
     wrapper_start = "def check(policy, action, users, boolean_votes, number_votes):\r\n"
