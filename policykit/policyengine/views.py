@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from policyengine.filter import *
-from policyengine.models import *
-#from policyengine.models import CommunityUser, BooleanVote, NumberVote
+from policyengine.models import CommunityUser, BooleanVote, NumberVote
 from policyengine.exceptions import NonWhitelistedCodeError
 import urllib.request
 import urllib.parse
