@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse
 from policyengine.filter import *
-from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
+#from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
 from policyengine.exceptions import NonWhitelistedCodeError
 import urllib.request
 import urllib.parse
