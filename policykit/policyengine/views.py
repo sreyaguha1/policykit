@@ -12,7 +12,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
-def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None, policy):
+def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
     """try:
         filter_code(code)
