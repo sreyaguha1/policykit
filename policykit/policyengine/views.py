@@ -3,7 +3,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse
 from policyengine.filter import *
 from policyengine.models import *
-#from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
 from policyengine.exceptions import NonWhitelistedCodeError
 import urllib.request
 import urllib.parse
@@ -14,6 +13,7 @@ import json
 logger = logging.getLogger(__name__)
 
 def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
+    from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
     """try:
         filter_code(code)
     except NonWhitelistedCodeError as e:
