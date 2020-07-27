@@ -79,7 +79,7 @@ class CommunityRole(Group):
 
 class CommunityUser(User, PolymorphicModel):
     readable_name = models.CharField('readable_name', max_length=300, null=True)
-    community = models.ForeignKey("policyengine.Community", models.CASCADE)
+    community = models.ForeignKey(Community, models.CASCADE)
     access_token = models.CharField('access_token', max_length=300, null=True)
     is_community_admin = models.BooleanField(default=False)
 
