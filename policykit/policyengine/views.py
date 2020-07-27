@@ -12,7 +12,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
-def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
+def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None, policy):
     from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
     """try:
         filter_code(code)
@@ -25,7 +25,7 @@ def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
     logger.info('built code')
     logger.info(code)
 
-    users = CommunityUser.objects.filter(community)
+    users = CommunityUser.objects.filter(policyengine.community)
     boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
     number_votes = NumberVote.objects.filter(proposal=action.proposal)
 
@@ -61,8 +61,6 @@ def initialize_policy(policy, action):
     policy.save()
 
 def check_policy(policy, action):
-
-    
     _locals = locals()
 
     wrapper_start = "def check(policy, action, users, boolean_votes, number_votes):\r\n"
