@@ -25,7 +25,7 @@ def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
     logger.info('built code')
     logger.info(code)
 
-    users = CommunityUser.objects.filter(policy.community)
+    users = CommunityUser.objects.filter(community)
     boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
     number_votes = NumberVote.objects.filter(proposal=action.proposal)
 
