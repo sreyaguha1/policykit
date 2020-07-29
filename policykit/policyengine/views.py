@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse
 from policyengine.filter import *
 from policyengine.models import *
-from policyengine.exceptions import NonWhitelistedCodeError
+#from policyengine.exceptions import NonWhitelistedCodeError
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 import urllib.request
@@ -21,8 +21,6 @@ def homepage(request):
 
 def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
-
-
     """try:
         filter_code(code)
     except NonWhitelistedCodeError as e:
