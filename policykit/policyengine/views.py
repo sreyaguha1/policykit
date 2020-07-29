@@ -42,9 +42,11 @@ def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None):
 
     exec(code, globals, locals)
     logger.info('ran exec')
+    return _locals
 
 def filter_policy(policy, action):
     
+     _locals = locals()
     
     wrapper_start = "def filter(policy, action):\r\n"
 
