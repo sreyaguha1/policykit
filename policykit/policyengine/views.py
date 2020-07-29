@@ -46,7 +46,7 @@ def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None):
 
 def filter_policy(policy, action):
     
-     _locals = locals()
+    _locals = locals()
     
     wrapper_start = "def filter(policy, action):\r\n"
 
