@@ -20,7 +20,7 @@ def homepage(request):
     
 
 def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None):
-    _locals = locals()
+    
     from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
 
 
