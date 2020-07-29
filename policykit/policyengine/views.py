@@ -21,6 +21,7 @@ def homepage(request):
 
 def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
+    _locals = locals()
 
     """try:
         filter_code(code)
@@ -42,7 +43,7 @@ def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None)
     logger.info('ran exec')
 
 def filter_policy(policy, action):
-    _locals = locals()
+    
 
     wrapper_start = "def filter(policy, action):\r\n"
 
