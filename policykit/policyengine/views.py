@@ -20,7 +20,7 @@ def homepage(request):
     
 
 def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None):
-    
+
     from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
 
 
@@ -45,7 +45,7 @@ def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None)
 
 def filter_policy(policy, action):
     
-
+    _locals = locals()
     wrapper_start = "def filter(policy, action):\r\n"
 
     wrapper_end = "\r\nfilter_pass = filter(policy, action)"
