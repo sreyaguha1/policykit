@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse
 from policyengine.filter import *
-from policyengine.models import *
-#from policyengine.exceptions import NonWhitelistedCodeError
+from policyengine.exceptions import NonWhitelistedCodeError
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 import urllib.request
