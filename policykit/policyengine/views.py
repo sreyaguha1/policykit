@@ -43,7 +43,7 @@ def exec_code(policy, action, users, code, wrapperStart, wrapperEnd, globals=Non
     logger.info('ran exec')
     
 
-def filter_policy(policy, action, users):
+def filter_policy(policy, action):
     
     _locals = locals()
     
