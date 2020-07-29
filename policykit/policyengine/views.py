@@ -20,8 +20,9 @@ def homepage(request):
     
 
 def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None):
-    from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
     _locals = locals()
+    from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
+
 
     """try:
         filter_code(code)
