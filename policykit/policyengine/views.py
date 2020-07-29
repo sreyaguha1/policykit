@@ -19,8 +19,8 @@ def homepage(request):
     return render(request, 'policyengine/home.html', {})
     
 
-def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None):
-
+def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None):
+    _locals = locals()
     from policyengine.models import CommunityUser, BooleanVote, NumberVote, Proposal
 
 
@@ -45,12 +45,12 @@ def exec_code(policy, code, wrapperStart, wrapperEnd, globals=None, locals=None)
 
 def filter_policy(policy, action):
     
-    _locals = locals()
+    
     wrapper_start = "def filter(policy, action):\r\n"
 
     wrapper_end = "\r\nfilter_pass = filter(policy, action)"
 
-    exec_code(policy, policy.filter, wrapper_start, wrapper_end, None, _locals)
+    exec_code(policy, policy.filter, wrapper_start, wrapper_end, None)
 
     if _locals.get('filter_pass'):
         return _locals['filter_pass']
@@ -65,7 +65,7 @@ def initialize_policy(policy, action):
 
     wrapper_end = "\r\ninitialize(policy, action)"
 
-    exec_code(policy, policy.initialize, wrapper_start, wrapper_end, _globals, _locals)
+    exec_code(policy, policy.initialize, wrapper_start, wrapper_end, _globals)
 
     policy.has_notified = True
     policy.save()
@@ -78,7 +78,7 @@ def check_policy(policy, action):
 
     wrapper_end = "\r\npolicy_pass = check(policy, action, users, boolean_votes, number_votes)"
 
-    exec_code(policy, policy.check, wrapper_start, wrapper_end, None, _locals)
+    exec_code(policy, policy.check, wrapper_start, wrapper_end, None)
 
     if _locals.get('policy_pass'):
         return _locals['policy_pass']
@@ -92,7 +92,7 @@ def notify_policy(policy, action):
 
     wrapper_end = "\r\nnotify(policy, action)"
 
-    exec_code(policy, policy.notify, wrapper_start, wrapper_end, None, _locals)
+    exec_code(policy, policy.notify, wrapper_start, wrapper_end, None)
 
 def pass_policy(policy, action):
     _locals = locals()
@@ -102,7 +102,7 @@ def pass_policy(policy, action):
     wrapper_end = "\r\nsuccess(policy, action)"
 
     logger.info('about to run exec code')
-    exec_code(policy, policy.success, wrapper_start, wrapper_end, None, _locals)
+    exec_code(policy, policy.success, wrapper_start, wrapper_end, None)
 
 def fail_policy(policy, action):
     _locals = locals()
@@ -111,7 +111,7 @@ def fail_policy(policy, action):
 
     wrapper_end = "\r\nfail(policy, action)"
 
-    exec_code(policy, policy.fail, wrapper_start, wrapper_end, None, _locals)
+    exec_code(policy, policy.fail, wrapper_start, wrapper_end, None)
 
 def clean_up_proposals(action, executed):
     from policyengine.models import Proposal, CommunityActionBundle
