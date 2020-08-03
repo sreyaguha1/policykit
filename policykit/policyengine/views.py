@@ -1,16 +1,11 @@
 from django.contrib.auth import get_user
 from django.contrib.contenttypes.models import ContentType
-<<<<<<< HEAD
 from django.contrib.auth.models import User, Group, Permission
 from django.http import HttpResponseRedirect, HttpResponse
-=======
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-<<<<<<< HEAD
->>>>>>> origin/master
 from policyengine.filter import *
 from policyengine.exceptions import NonWhitelistedCodeError
-=======
->>>>>>> master
+
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from policyengine.filter import *
