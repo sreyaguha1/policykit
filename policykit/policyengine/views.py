@@ -34,8 +34,7 @@ def logout(request):
     logout(request)
     return redirect('/login')
 
-def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
-    def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
+def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
     try:
         filter_code(code)
