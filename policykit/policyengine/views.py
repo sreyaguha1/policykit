@@ -1,19 +1,25 @@
-from django.shortcuts import render
+from django.contrib.auth import get_user
 from django.contrib.contenttypes.models import ContentType
 <<<<<<< HEAD
 from django.contrib.auth.models import User, Group, Permission
 from django.http import HttpResponseRedirect, HttpResponse
 =======
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+<<<<<<< HEAD
 >>>>>>> origin/master
 from policyengine.filter import *
 from policyengine.exceptions import NonWhitelistedCodeError
+=======
+>>>>>>> master
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from policyengine.filter import *
+from policykit.settings import SERVER_URL
 import urllib.request
 import urllib.parse
 import logging
 import json
+import parser
 
 
 logger = logging.getLogger(__name__)
@@ -22,12 +28,29 @@ logger = logging.getLogger(__name__)
 def homepage(request):
     return render(request, 'policyengine/home.html', {})
 
-def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
+def v2(request):
+    return render(request, 'policyengine/v2/index.html', {
+        'server_url': SERVER_URL,
+        'user': get_user(request)
+    })
+
+def logout(request):
+    from django.contrib.auth import logout
+    logout(request)
+    return redirect('/login')
+
+def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
+    def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
     try:
         filter_code(code)
     except NonWhitelistedCodeError as e:
         logger.error(e)
+    errors = filter_code(code)
+    if len(errors) > 0:
+        logger.error('Filter errors:')
+        for error in errors:
+            logger.error(error.message)
         return
 
     lines = ['  ' + item for item in code.splitlines()]
@@ -149,7 +172,6 @@ def initialize_starterkit(request):
 
     starterkit_name = request.POST['starterkit']
     community_name = request.POST['community_name']
-
     starter_kit = StarterKit.objects.get(name=starterkit_name)
     community = Community.objects.get(community_name=community_name)
 
@@ -157,22 +179,38 @@ def initialize_starterkit(request):
         if policy.is_constitution:
             policy.make_constitution_policy(community)
         else:
-            policy.make_community_policy(community)
+            policy.make_platform_policy(community)
 
     for role in starter_kit.genericrole_set.all():
         role.make_community_role(community)
 
-    response = redirect('/login?success=true')
+    response = redirect('/main/login?success=true')
     return response
 
 @csrf_exempt
 def error_check(request):
     data = json.loads(request.body)
+    code = data['code']
+
+    errors = []
+
+    # Note: only catches first SyntaxError in code
+    #   when user fixes this error, then it will catch the next one, and so on
+    #   could use linter, but that has false positives sometimes
+    #   since syntax errors often affect future code
+    try:
+        parser.suite(code)
+    except SyntaxError as e:
+        errors.append({ 'type': 'syntax', 'lineno': e.lineno, 'code': e.text, 'message': str(e) })
 
     try:
-        filter_code(data['code'])
-    except NonWhitelistedCodeError as e:
-        return JsonResponse({ 'is_error': True, 'error': str(e), 'lineno': e.lineno })
+        filter_errors = filter_code(code)
+        errors.extend(filter_errors)
+    except SyntaxError as e:
+        pass
+
+    if len(errors) > 0:
+        return JsonResponse({ 'is_error': True, 'errors': errors })
     return JsonResponse({ 'is_error': False })
 
 #pass in the community
