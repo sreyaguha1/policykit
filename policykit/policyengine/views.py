@@ -22,15 +22,9 @@ logger = logging.getLogger(__name__)
 def homepage(request):
     return render(request, 'policyengine/home.html', {})
 
-
-<<<<<<< HEAD
 def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
-    """try:
-=======
-def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
     try:
->>>>>>> origin/master
         filter_code(code)
     except NonWhitelistedCodeError as e:
         logger.error(e)
