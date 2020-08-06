@@ -35,6 +35,7 @@ def editor(request):
     })
 
 def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
+    from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
     errors = filter_code(code)
     if len(errors) > 0:
         logger.error('Filter errors:')
@@ -42,6 +43,11 @@ def exec_code(code, wrapperStart, wrapperEnd, globals=None, locals=None):
             logger.error(error.message)
         return
 
+
+    users = CommunityUser.objects.filter(community=policy.community)
+    boolean_votes = BooleanVote.objects.filter(proposal=action.proposal)
+    number_votes = NumberVote.objects.filter(proposal=action.proposal)
+    
     lines = ['  ' + item for item in code.splitlines()]
     code = wrapperStart + '\r\n'.join(lines) + wrapperEnd
     logger.info('built code')
