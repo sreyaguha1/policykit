@@ -53,7 +53,7 @@ def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, loca
     logger.info('built code')
     logger.info(code)
 
-    exec(code, globals, locals, users)
+    exec(code, globals, locals)
     logger.info('ran exec')
 
 def filter_policy(policy, action):
