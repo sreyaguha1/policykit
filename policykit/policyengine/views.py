@@ -84,8 +84,6 @@ def initialize_policy(policy, action):
     policy.save()
 
 def check_policy(policy, action):
-
-
     _locals = locals()
 
     wrapper_start = "def check(policy, action, users, boolean_votes, number_votes):\r\n"
