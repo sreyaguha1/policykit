@@ -34,9 +34,17 @@ def editor(request):
         'user': get_user(request)
     })
 
+
+def actions(request):
+    user = get_user(request)
+
+    return render(request, 'policyengine/v2/actions.html', {
+        'server_url': SERVER_URL,
+        'user': get_user(request),
+    })
+
 def exec_code(policy, action, code, wrapperStart, wrapperEnd, globals=None, locals=None):
     from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
-
     errors = filter_code(code)
     if len(errors) > 0:
         logger.error('Filter errors:')
@@ -71,6 +79,10 @@ def filter_policy(policy, action):
         return False
 
 def initialize_policy(policy, action):
+    from policyengine.models import Proposal, CommunityUser, BooleanVote, NumberVote
+
+    users = CommunityUser.objects.filter(community=policy.community)
+
     _locals = locals()
     _globals = globals()
 
@@ -160,6 +172,8 @@ def initialize_starterkit(request):
 
     starterkit_name = request.POST['starterkit']
     community_name = request.POST['community_name']
+    creator_token = request.POST['creator_token']
+
     starter_kit = StarterKit.objects.get(name=starterkit_name)
     community = Community.objects.get(community_name=community_name)
 
@@ -170,7 +184,10 @@ def initialize_starterkit(request):
             policy.make_platform_policy(community)
 
     for role in starter_kit.genericrole_set.all():
-        role.make_community_role(community)
+        role.make_community_role(community, creator_token)
+
+    logger.info('starterkit initialized')
+    logger.info('creator_token' + creator_token)
 
     response = redirect('/login?success=true')
     return response
