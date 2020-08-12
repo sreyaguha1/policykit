@@ -623,7 +623,7 @@ class PolicykitAddConstitutionPolicy(EditorModel):
 
 
 class PolicykitChangePlatformPolicy(EditorModel):
-    platform_policy = models.ForeignKey('PlatformPolicy', models.CASCADE)
+    platform_policy = models.ForeignKey('PlatformPolicy', models.CASCADE, null = True)
 
     action_codename = 'policykitchangeplatformpolicy'
 
