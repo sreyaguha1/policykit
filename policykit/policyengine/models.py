@@ -913,7 +913,7 @@ class UserVote(models.Model):
 
 
 class BooleanVote(UserVote):
-    boolean_value = forms.BooleanField(
+    boolean_value = models.BooleanField(
                                        label='myLabel',
                                        required=False,
                                        initial=False
