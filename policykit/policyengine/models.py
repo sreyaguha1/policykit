@@ -913,10 +913,9 @@ class UserVote(models.Model):
 
 
 class BooleanVote(UserVote):
-    boolean_value = forms.BooleanField(
-                                       label='myLabel',
+    boolean_value = models.BooleanField(
                                        required=False,
-                                       initial=False
+                                       default=True
                                        )
 #models.BooleanField(null=True, default=True) # yes/no, selected/not selected
 
