@@ -912,9 +912,11 @@ class UserVote(models.Model):
         abstract = True
 
 
-class BooleanVote(UserVote):
-    boolean_value = models.BooleanField(null = True,
-                                        default = True
+class BooleanVote(UserVote, forms.Form):
+    boolean_value = forms.BooleanField(
+                                       label='myLabel',
+                                       required=True,
+                                       initial=False
                                        )
 #models.BooleanField(null=True, default=True) # yes/no, selected/not selected
 
