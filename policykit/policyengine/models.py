@@ -903,7 +903,7 @@ class PlatformPolicyBundle(BasePolicy):
         verbose_name = 'platformpolicybundle'
         verbose_name_plural = 'platformpolicybundles'
     
-class UserVote(models.Model, forms.Form):
+class UserVote(models.Model):
     user = models.ForeignKey(CommunityUser, models.CASCADE)
     proposal = models.ForeignKey(Proposal, models.CASCADE)
     vote_time = models.DateTimeField(auto_now_add=True)
@@ -913,10 +913,8 @@ class UserVote(models.Model, forms.Form):
 
 
 class BooleanVote(UserVote):
-    boolean_value = forms.BooleanField(
-                                       label='myLabel',
-                                       required=True,
-                                       initial=False
+    boolean_value = models.BooleanField(null = True, blank = False, default=True
+                                       
                                        )
 #models.BooleanField(null=True, default=True) # yes/no, selected/not selected
 
