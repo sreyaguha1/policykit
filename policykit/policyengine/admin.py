@@ -258,7 +258,7 @@ admin_site.register(PolicykitRemoveUserRole, PolicykitRemoveUserRoleAdmin)
 
 
 class PolicykitChangePlatformPolicyAdmin(admin.ModelAdmin):
-    fields = ('name', 'description', 'is_bundled', 'filter', 'initialize', 'check', 'notify', 'success', 'fail')
+    fields = ('platform_policy','name', 'description', 'is_bundled', 'filter', 'initialize', 'check', 'notify', 'success', 'fail')
 
     def save_model(self, request, obj, form, change):
         obj.initiator = request.user
@@ -269,7 +269,7 @@ admin_site.register(PolicykitChangePlatformPolicy, PolicykitChangePlatformPolicy
 
 
 class PolicykitChangeConstitutionPolicyAdmin(admin.ModelAdmin):
-    fields = ('name', 'description', 'is_bundled', 'filter', 'initialize', 'check', 'notify', 'success', 'fail')
+    fields = ('constitution_policy''name', 'description', 'is_bundled', 'filter', 'initialize', 'check', 'notify', 'success', 'fail')
 
     def save_model(self, request, obj, form, change):
         obj.initiator = request.user
